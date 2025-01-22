@@ -1,0 +1,19 @@
+services:
+  ui:
+    container_name: ui
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - shared_network
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+
+networks:
+  shared_network:
+    external: true

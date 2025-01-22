@@ -3,19 +3,27 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background-1: #1A1A1A;
+  --background-2: #0D0D0D;
+  --background-3: #333333;
+  --background-4: #262626;
+  --text-1: #F2F2F2;
+  --text-2: #808080;
+  --text-3: #D9D9D9;
+  --accent: #1E6F9F;
+  --logo-1: #4EA8DE;
+  --logo-2: #5E60CE;
+  --highlighted-1: #4EA8DE;
+  --highlighted-2: #8284FA;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-1);
+  background: var(--background-1);
+  font-family: var(--font-inter), sans-serif;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
 }
