@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { LogoutButton } from "@/components/LogoutButton";
@@ -27,6 +28,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Head>
       <body className={`${inter.variable} antialiased`}>
         <header className="pt-[72px] pb-20 bg-background2">
           <div className="px-4 flex items-center justify-center flex-col mx-auto max-w-screen-md">
