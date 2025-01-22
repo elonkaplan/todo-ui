@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TODO APP UI
 
-## Getting Started
+## Project Setup Instructions
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Docker (instructions to install are provided below)
+- Node.js and Yarn (for development mode)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy the `.env.example` file and rename it to `.env`. Fill in the required environment variables before proceeding.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Production Mode Setup
 
-## Learn More
+1. Create a Docker network:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   docker network create shared_network
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Build and start the project using Docker Compose:
+   ```bash
+   docker compose -f docker-compose.yaml up -d --build --force-recreate
+   ```
+   This command will:
+   - Build the Docker images for the project.
+   - Start the project in production mode.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Development Mode Setup
 
-## Deploy on Vercel
+1. Install project dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   yarn
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Start the project in development mode:
+
+   ```bash
+   yarn start:dev
+   ```
+
+### Docker Installation Instructions (Ubuntu)
+
+1. Update the package index:
+
+   ```bash
+   sudo apt-get update
+   ```
+
+2. Install required packages:
+
+   ```bash
+   sudo apt-get install ca-certificates curl
+   ```
+
+3. Create a directory for Docker’s keyrings:
+
+   ```bash
+   sudo install -m 0755 -d /etc/apt/keyrings
+   ```
+
+4. Download and add Docker’s GPG key:
+
+   ```bash
+   sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+   sudo chmod a+r /etc/apt/keyrings/docker.asc
+   ```
+
+5. Add Docker’s official repository to the sources list:
+
+   ```bash
+   echo \
+     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   sudo apt-get update
+   ```
+
+6. Install Docker and related tools:
+
+   ```bash
+   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   ```
+
+## Notes
+
+- Ensure the `.env` file is correctly filled in both production and development setups.
