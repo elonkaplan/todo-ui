@@ -69,7 +69,7 @@ export const TaskForm: FC<Props> = ({ task }) => {
             onBlur={() => setIsError(!title)}
             placeholder="Ex. Brush you teeth"
             className={`p-4 border rounded-lg w-full bg-background4 outline-none font-normal text-sm ${
-              isError ? "border-[#FF3B30]" : "border-background3"
+              isError ? "border-error" : "border-background3"
             }`}
           />
         </label>

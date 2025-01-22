@@ -3,6 +3,12 @@
 import { cookies } from "next/headers";
 import { isTokenExpired } from "@/helpers/isTokenExpired";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+
+const authSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
 
 export async function refreshTokens() {
   const cookieStore = await cookies();
@@ -73,19 +79,27 @@ export async function login(formData: FormData) {
   let redirectPath = "/";
 
   try {
+    const result = authSchema.safeParse({
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
+    });
+
+    if (!result.success) {
+      throw new Error(
+        result.error.errors.map((error) => error.message).join(", ")
+      );
+    }
+
     const res = await fetch(`${process.env.API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        username: formData.get("username"),
-        password: formData.get("password"),
-      }),
+      body: JSON.stringify(result.data),
     });
 
     if (!res.ok) {
-      throw new Error("Failed to login");
+      throw new Error((await res.json()).message);
     }
 
     const data: { accessToken: string; refreshToken: string } =
@@ -96,9 +110,17 @@ export async function login(formData: FormData) {
     cookieStore.set("access_token", data.accessToken);
     cookieStore.set("refresh_token", data.refreshToken);
   } catch (error: unknown) {
-    console.error(error);
+    if (error instanceof Error) {
+      console.error(error);
 
-    redirectPath = "/login";
+      redirectPath = `/login?error=${encodeURIComponent(error.message)}`;
+    } else {
+      console.error(error);
+
+      redirectPath = `/login?error=${encodeURIComponent(
+        "Unknown error occurred"
+      )}`;
+    }
   }
 
   redirect(redirectPath);
@@ -108,19 +130,27 @@ export async function register(formData: FormData) {
   let redirectPath = "/";
 
   try {
+    const result = authSchema.safeParse({
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
+    });
+
+    if (!result.success) {
+      throw new Error(
+        result.error.errors.map((error) => error.message).join(", ")
+      );
+    }
+
     const res = await fetch(`${process.env.API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        username: formData.get("username"),
-        password: formData.get("password"),
-      }),
+      body: JSON.stringify(result.data),
     });
 
     if (!res.ok) {
-      throw new Error("Failed to login");
+      throw new Error((await res.json()).message);
     }
 
     const data: { accessToken: string; refreshToken: string } =
@@ -131,9 +161,17 @@ export async function register(formData: FormData) {
     cookieStore.set("access_token", data.accessToken);
     cookieStore.set("refresh_token", data.refreshToken);
   } catch (error: unknown) {
-    console.error(error);
+    if (error instanceof Error) {
+      console.error(error);
 
-    redirectPath = "/login";
+      redirectPath = `/register?error=${encodeURIComponent(error.message)}`;
+    } else {
+      console.error(error);
+
+      redirectPath = `/login?error=${encodeURIComponent(
+        "Unknown error occurred"
+      )}`;
+    }
   }
 
   redirect(redirectPath);

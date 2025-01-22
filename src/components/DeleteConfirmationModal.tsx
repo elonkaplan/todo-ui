@@ -69,7 +69,7 @@ export const DeleteConfirmationModal: FC<Props> = ({
               e.preventDefault();
               onConfirm();
             }}
-            className="px-4 py-2 bg-red-600  rounded hover:bg-red-700"
+            className="px-4 py-2 bg-error  rounded hover:bg-red-700"
           >
             Delete
           </button>

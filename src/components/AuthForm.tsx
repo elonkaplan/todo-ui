@@ -8,9 +8,10 @@ import { redirect } from "next/navigation";
 
 interface Props {
   type: "login" | "register";
+  error?: string;
 }
 
-export default async function AuthForm({ type }: Props) {
+export default async function AuthForm({ type, error }: Props) {
   const cookiesStore = await cookies();
 
   if (cookiesStore.has("access_token")) {
@@ -18,10 +19,16 @@ export default async function AuthForm({ type }: Props) {
   }
 
   return (
-    <div className="pt-16">
+    <div className="pt-16 relative">
       <h2 className="font-bold text-3xl text-logo1 mb-9 text-center">
         {type === "login" ? "LOGIN" : "REGISTRATION"}
       </h2>
+
+      {error && (
+        <div className="absolute top-4 right-4 bg-error-light text-error border border-error rounded-md px-4 py-2 text-xs shadow-lg">
+          {error}
+        </div>
+      )}
 
       <form action={type === "login" ? login : register}>
         <label className="block mb-6">
@@ -32,7 +39,9 @@ export default async function AuthForm({ type }: Props) {
             type="text"
             name="username"
             placeholder="Ex. john_doe"
-            className="p-4 border rounded-lg w-full bg-background4 outline-none font-normal text-sm border-background3"
+            className={`p-4 border rounded-lg w-full bg-background4 outline-none font-normal text-sm border-background3 ${
+              error ? "border-error" : ""
+            }`}
           />
         </label>
 
@@ -43,7 +52,9 @@ export default async function AuthForm({ type }: Props) {
           <input
             type="password"
             name="password"
-            className="p-4 border rounded-lg w-full bg-background4 outline-none font-normal text-sm border-background3"
+            className={`p-4 border rounded-lg w-full bg-background4 outline-none font-normal text-sm border-background3 ${
+              error ? "border-error" : ""
+            }`}
           />
         </label>
 

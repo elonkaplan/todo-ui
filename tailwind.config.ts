@@ -21,6 +21,7 @@ export default {
         logo2: "var(--logo-2)",
         highlighted1: "var(--highlighted-1)",
         highlighted2: "var(--highlighted-2)",
+        error: "var(--error)",
       },
     },
   },
