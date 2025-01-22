@@ -1,10 +1,10 @@
 import "./globals.css";
 
-import Head from "next/head";
+import type { Metadata, Viewport } from "next";
+
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { LogoutButton } from "@/components/LogoutButton";
-import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
 const inter = Inter({
@@ -15,6 +15,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Todo App",
   description: "A simple todo app",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1.0,
+  maximumScale: 1.0,
+  userScalable: false,
 };
 
 export default async function RootLayout({
@@ -28,12 +35,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </Head>
       <body className={`${inter.variable} antialiased`}>
         <header className="pt-[72px] pb-20 bg-background2">
           <div className="px-4 flex items-center justify-center flex-col mx-auto max-w-screen-md">
