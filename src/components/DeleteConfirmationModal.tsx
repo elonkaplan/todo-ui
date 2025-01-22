@@ -32,11 +32,20 @@ export const DeleteConfirmationModal: FC<Props> = ({
       className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 transition-opacity duration-300 ${
         isAnimating ? "opacity-100" : "opacity-0"
       }`}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        onClose();
+      }}
     >
       <div
         className={`bg-background4 rounded-lg shadow-lg w-96 max-w-[calc(100%-24px)] p-6 transform transition-transform duration-300 ${
           isAnimating ? "scale-100" : "scale-90"
         }`}
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
       >
         <h2 className="text-lg font-semibold">Delete Task</h2>
         <p className="mt-2 text-text2">
